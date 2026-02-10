@@ -1,0 +1,7 @@
+Django>=5.2.8
+django-summernote
+gunicorn
+psycopg2-binary
+whitenoise
+dj-database-url
+python-dotenv
