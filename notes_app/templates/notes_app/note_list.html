@@ -1,0 +1,68 @@
+{% extends 'notes_app/base.html' %}
+
+{% block title %}All Notes - Notes App{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>All Notes</h1>
+    <a href="{% url 'note_create' %}" class="btn btn-primary">+ New Note</a>
+</div>
+
+{% if notes %}
+<p class="text-muted">Total Notes: {{ total_notes }}</p>
+
+<div class="row">
+    {% for note in notes %}
+    <div class="col-md-4 mb-4">
+        <div class="card note-card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ note.title }}</h5>
+                <p class="card-text text-muted small">
+                    Updated: {{ note.updated_at|date:"M d, Y - g:i A" }}
+                </p>
+                <p class="card-text">{{ note.content|striptags|truncatechars:100 }}</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'note_detail' note.pk %}" class="btn btn-sm btn-info">
+                        👁️ View
+                    </a>
+                    <a href="{% url 'note_edit' note.pk %}" class="btn btn-sm btn-success">
+                        ✏️ Edit
+                    </a>
+                    <a href="{% url 'note_delete' note.pk %}" class="btn btn-sm btn-danger">
+                        🗑️ Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center mt-5">
+    <div class="empty-state">
+        <h2 class="text-muted">📝 No notes yet</h2>
+        <p class="text-muted">Click "New Note" to create your first note!</p>
+        <a href="{% url 'note_create' %}" class="btn btn-primary btn-lg mt-3">
+            Create Your First Note
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    .note-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .note-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .empty-state {
+        padding: 60px 20px;
+    }
+</style>
+{% endblock %}

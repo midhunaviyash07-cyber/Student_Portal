@@ -1,0 +1,69 @@
+{% extends 'notes_app/base.html' %}
+
+{% block title %}{{ title }} - Notes App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">{{ title }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Display form errors -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Title field -->
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">
+                            {{ form.title.label }}
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="text-danger small">
+                                {{ form.title.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.title.help_text %}
+                            <div class="form-text">{{ form.title.help_text }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content field -->
+                    <div class="mb-3">
+                        <label for="{{ form.content.id_for_label }}" class="form-label">
+                            {{ form.content.label }}
+                        </label>
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                            <div class="text-danger small">
+                                {{ form.content.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.content.help_text %}
+                            <div class="form-text">{{ form.content.help_text }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'note_list' %}" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            {{ button_text }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
